@@ -3,7 +3,27 @@ const admin = require("firebase-admin");
 const credentials = require("./key.json");
 const cors = require("cors");
 
+
+// const serviceAccount = JSON.parse(process.env.FIREBASE_CREDENTIALS);
+
+const helmet = require("helmet");
+
+
 const app = express();
+
+
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'unsafe-eval'"], // ⚠ Allows eval-like behavior
+      },
+    },
+  })
+);
+
+
 // / ✅ Allow requests from frontend (http://localhost:3000)
 app.use(cors({
   origin: "http://localhost:3000", 
